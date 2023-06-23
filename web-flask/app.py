@@ -9,7 +9,8 @@ from wtforms.validators import InputRequired, Email, Length, ValidationError, Eq
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from os import getenv
-from .models.user import User
+from models import db
+from models.user import User
 
 
 app = Flask(__name__)
@@ -25,19 +26,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqldb://{}:{}@{}/{}'.format(
 app.config["SECRET_KEY"] = "thisidsupposedtobeasecretkey"
 app.config['JWT_SECRET_KEY'] = 'thisissupposedtobeajwtsecretkey'
 
-db = SQLAlchemy(app)
+db.init_app(app)
+#db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-"""
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(80), nullable=True)
-    lastname = db.Column(db.String(80), nullable=True)
-    email =  db.Column(db.String(80), nullable=False)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)
-"""
 
 login_manager = LoginManager()
 login_manager.init_app(app)

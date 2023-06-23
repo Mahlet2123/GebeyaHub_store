@@ -5,9 +5,10 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
 
 
-class User(BaseModel, Base):
+class User(BaseModel, Base, db.Model, UserMixin):
     """ Defining a user class """
     __tablename__ = 'users'
     
