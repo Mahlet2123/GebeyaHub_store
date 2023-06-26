@@ -53,9 +53,6 @@ class LoginForm(FlaskForm):
         if not user:
             raise ValidationError(
                     "Don't have an account; Register instead")
-        elif not user.password:
-            raise ValidationError("Unauthorized access")
-
 
 """
     def validate_password(self):
