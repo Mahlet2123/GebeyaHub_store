@@ -31,15 +31,6 @@
                         {% endif %}
                     </div>
                     <div class="form-wrapper">
-                        <!-- User Name input -->
-                        {{ form.username }}
-                        {% if form.username.errors %}
-                            {% for error in form.username.errors %}
-                                <p class="error">{{ error }}</p>
-                            {% endfor %}
-                        {% endif %}                        
-                    </div>
-                    <div class="form-wrapper">
 		            	<!-- Email input -->
 		        	    {{ form.email }}
                         {% if form.email.errors %}

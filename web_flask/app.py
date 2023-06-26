@@ -1,5 +1,7 @@
 #/usr/bin/python3
 """ app module """
+import sys
+print(sys.path)
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -9,12 +11,11 @@ from wtforms.validators import InputRequired, Email, Length, ValidationError, Eq
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from os import getenv
-from models import db
 from models.user import User
+from models import storage
 
 
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql:///mysql+mysqldb://mahlet:mypass@localhost/gebeyahub_db'
 #app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db'
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqldb://{}:{}@{}/{}'.format(
         getenv('ONLINE_STORE_MYSQL_USER'),
@@ -26,10 +27,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqldb://{}:{}@{}/{}'.format(
 app.config["SECRET_KEY"] = "thisidsupposedtobeasecretkey"
 app.config['JWT_SECRET_KEY'] = 'thisissupposedtobeajwtsecretkey'
 
-db.init_app(app)
-#db = SQLAlchemy(app)
+#db.init_app(app)
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
+#jwt = JWTManager(app)
 
 
 login_manager = LoginManager()
@@ -38,7 +39,8 @@ login_manager.login_view = "login"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    user = storage.user_by_id(user_id)
+    return user
 
 class LoginForm(FlaskForm):
     email = StringField("email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email"})
@@ -47,29 +49,32 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
     def validate_email(self, email):
-        user_email = User.query.filter_by(
-                email=email.data).first()
-        if not user_email:
+        user = storage.user_by_email(email.data)
+        if not user:
             raise ValidationError(
                     "Don't have an account; Register instead")
+        elif not user.password:
+            raise ValidationError("Unauthorized access")
 
-    def validate_password(self, password, email):
-        user_email = User.query.filter_by(
-                email=email.data).first()
-        if user_email:
+
+"""
+    def validate_password(self):
+        user = storage.user_by_email(email.data)
+        if user:
             #if not bcrypt.check_password_hash(password = user_email.password, password.data):
             hashed_entered_password = bcrypt.hashpw(password.data.encode('utf-8'), user_email.password)
             #if not bcrypt.check_password_hash(user_email.password, password):
-            if not hashed_entered_password == user_email.password:
+            if not hashed_entered_password == user.password:
                 raise ValidationError(
                         "Unauthorized access")
+"""
 
 
 class RegisterForm(FlaskForm):
     firstname = StringField("firstname", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "First Name"})
     lastname = StringField("lastname", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Last Name"})
     email = StringField("email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email"})
-    username = StringField("username", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
+    #username = StringField("username", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
     password = PasswordField(
             "password",
             validators=[
@@ -101,7 +106,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = storage.user_by_email(form.email.data)
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
@@ -121,13 +126,12 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(
-                firstname=form.firstname.data,
-                lastname=form.lastname.data,
-                email=form.email.data,
-                #username=form.username.data,
-                password=hashed_password
-            )
+        new_user = User()
+        new_user.first_name=form.firstname.data
+        new_user.last_name=form.lastname.data
+        new_user.email=form.email.data
+        new_user.password=hashed_password
+
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for("login"))
