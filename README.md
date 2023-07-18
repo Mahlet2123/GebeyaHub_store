@@ -20,6 +20,8 @@ GebeyaHUB is an innovative website created by Nathan Assefa Kassa and Mahlet Sei
 
 The Online Store is a web application designed to provide a platform for users to browse and purchase products online. It offers a user-friendly interface that allows customers to search for products and add them to their cart.
 
+Click [here](https://medium.com/@Mahlet_S/gebeyahub-online-shopping-and-trading-in-ethiopia-e2d5e5c11823) to know more.
+
 ## Features
 
 - User authentication: Users can sign up, log in, and log out.
