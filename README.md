@@ -6,7 +6,6 @@ Welcome to the GebeyaHub Online Store repository! This repository contains the s
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Motivation](#Motivation)
 - [Usage](#usage)
 - [Authors](#Authors)
 - [Contributing](#contributing)
@@ -27,10 +26,6 @@ Click [here](https://medium.com/@Mahlet_S/gebeyahub-online-shopping-and-trading-
 - User authentication: Users can sign up, log in, and log out.
 - Product browsing: Users can view a list of products, search for specific products, and view detailed information about each product.
 - Shopping cart: Users can add products to their cart, modify the quantity, and remove items.
-
-## Motivation
-
-The GebeyaHUB project came from our desire to demonstrate our abilities and apply what we had learned in the past 10 months. We had several project ideas but decided to create an e-commerce website because it was relevant and had the potential to make a difference in the Ethiopian market. This project served as proof of our skills and a way to address the challenges faced by businesses and consumers in our country.
 
 ## Usage
 
