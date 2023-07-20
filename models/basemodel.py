@@ -39,7 +39,7 @@ class BaseModel():
         """ Returning the '__str__' result as a standard python expression """
         return self.__str__()
     
-    """ see again """
+
     def save(self):
         """ Saving to the file """
         self.created_at = datetime.now()
@@ -56,6 +56,5 @@ class BaseModel():
         dict_copy.pop('_sa_instance_state', None)
         return dict_copy
 
-    """ see again """
     def delete(self):
         models.storage.delete(self)
