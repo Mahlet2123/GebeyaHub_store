@@ -1,31 +1,42 @@
 #!/usr/bin/python3
-""" Definig a user class """
-
-
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Enum, event
-from sqlalchemy.orm import relationship
+""" the products module """
+from models import BaseModel, Base
+from sqlalchemy import String, Column, ForeignKey
 
 
 class Product(BaseModel, Base):
-    """Defining a user class"""
+    """ A product class """
+    __tablename__ = products
 
-    __tablename__ = "products"
-
-    name = Column(String(128), nullable=False)
-    price = Column(Float, nullable=False)
-    description = Column(String(1024))
-    gender = Column(Enum("female", "male", "kid"), default=None, nullable=True)
+    name = Column(String(60), nullable=False)
+    price = Column(float, nullable=False)
+    discription =Column(String(1024), nullable=False)
     category_id = Column(
-        String(60), ForeignKey("categories.id", ondelete="CASCADE"),
-        nullable=False
-    )
-    reviews = relationship(
-        "Review", backref="product", cascade="all, delete, delete-orphan"
-    )
+            String(60),
+            ForeignKey("categories.id", ondelete="CASCADE"),
+            nullable=False
+            )
+
+    product_images = relationship(
+            'ProductImage',
+            backref='product',
+            cascade='all, delete, delete-orphan'
+            )
+
     cart_items = relationship(
-        "CartItem", backref="product", cascade="all, delete, delete-orphan"
-    )
-    urls = relationship(
-        "Url", backref="product", cascade="all, delete, delete-orphan"
-    )
+            'CartItem',
+            backref='product',
+            cascade='all, delete, delete-orphan'
+            )
+
+    order_items = relationship(
+            'OrderItem',
+            backref='product',
+            cascade='all, delete, delete-orphan'
+            )
+
+    reviews = relationship(
+            'Review',
+            backref='product',
+            cascade='all, delete, delete-orphan'
+            )

@@ -1,33 +1,38 @@
 #!/usr/bin/python3
-""" Definig a user class """
+""" the users module """
+from models import BaseModel, Base
+from sqlalchemy import String, Column, ForeignKey
 
 
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
-from flask_login import UserMixin
+class User(BaseModel, Base):
+    """ A user class """
+    __tablename__ = users
 
-
-class User(UserMixin, BaseModel, Base):
-    """ Defining a user class """
-    __tablename__ = 'users'
-    
-    first_name = Column(String(128), nullable=True)
-    Last_name = Column(String(128), nullable=True)
+    first_name = Column(String(128), nullable=False)
+    last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    reviews = relationship(
-            'Review',
+
+    user_profile = relationship(
+            'UserProfile',
             backref='user',
             cascade='all, delete, delete-orphan'
             )
+
     carts = relationship(
             'Cart',
             backref='user',
             cascade='all, delete, delete-orphan'
             )
+
     orders = relationship(
             'Order',
             backref='user',
+            cascade='all, delete, delete-orphan'
+            )
+
+    reviews = relationship(
+            'Review',
+            backref='user'
             cascade='all, delete, delete-orphan'
             )
