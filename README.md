@@ -40,11 +40,11 @@ Click [here](https://medium.com/@Mahlet_S/gebeyahub-online-shopping-and-trading-
 
 **1. Clone the repository:**
 
-        git clone https://github.com/nathan-assefa/Online_store.git
+        git clone https://github.com/Mahlet2123/GebeyaHub_store.git
 
 **2. Navigate to the project directory:**
 
-        cd Online_store
+        cd GebeyaHub_store
 
 **3. Install the dependencies:**
 
@@ -76,7 +76,7 @@ Once the application is up and running, you can access it in your web browser by
 
 ## Contributing
 
-Contributions to the Online Store project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
+Contributions to the GebeyaHub_store Online Store project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
 
 ## License
 
