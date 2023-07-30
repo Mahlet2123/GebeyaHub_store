@@ -4,7 +4,7 @@ from sys import argv
 from models import storage
 from models.product import Product
 from models.category import Category
-from models.url import Url
+from models.product_image import ProductImage
 
 
 categories = storage.all(Category).values()
@@ -21,13 +21,13 @@ with open(argv[1]) as file_name:
             new_item = Product(**item)
             storage.new(new_item)
             storage.save()
-            for url in urls:
-                new_url = {}
-                new_url['_type'] = new_item.category.name
-                new_url['product_id'] = new_item.id
-                new_url['link'] = url
-                created_url = Url(**new_url)
-                storage.new(created_url)
+            for image_url in urls:
+                new_product_image = {}
+                new_product_image['_type'] = new_item.category.name
+                new_product_image['product_id'] = new_item.id
+                new_product_image['image_urls'] = image_url
+                product_images = ProductImage(**new_product_image)
+                storage.new(product_images)
 
     storage.save()
 

@@ -32,7 +32,19 @@ classes = {
 class DBStorage():
     """ The DBStorage class """
     __engine = None
-    __session = None
+    __seission = None
+
+    """
+    The Session in SQLAlchemy is an object that represents a transactional
+    scope for interacting with the database.
+
+    Sessions are used to query, add, update, and delete data from the
+    database using Python objects (models) instead of raw SQL queries.
+
+    The session acts as a temporary workspace for changes to the objects,
+    and these changes are eventually flushed (written) to the database
+    when the session is committed.
+    """
 
     def __init__(self):
         """Instantiate a DBStorage object"""
@@ -45,6 +57,10 @@ class DBStorage():
         """ 
         The create_engine function is used to create a new SQLAlchemy 
         engine that connects to the database.
+
+        The Engine in SQLAlchemy represents the interface to the database.
+        used to establish a connection to the database and execute raw
+        SQL statements.
         """
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(ONLINE_STORE_MYSQL_USER,
@@ -75,12 +91,31 @@ class DBStorage():
         """
         new_dict = {}
         for clss in classes:
-            if cls=None or cls is classes[clss] or cls is clss:
+            if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key]=obj
         return (new_dict)
+
+    def get(self, cls, id):
+        """
+        query on the current database session (self.__session)
+        an object based on the class and its ID, or None
+        """
+        if cls and id and type(id) is str:
+            if (type(cls) is not str):
+                cls = cls.__name__
+            return self.all().get(cls + '.' + id)
+        return None
+
+    def count (self, cls=None):
+        """ Counting the number of objects in the database """
+        if cls:
+            if type(cls) is not str:
+                cls = cls.__name__
+            return len(self.all(cls))
+        return len(self.all())
 
     def new(self, obj):
         """ Adds the given object (obj) to the current database session. """
@@ -92,6 +127,16 @@ class DBStorage():
         to the database.
         """
         self.__session.commit()
+
+    def close(self):
+        """
+        Closing the session is crucial to release any database connections
+        and resources acquired during the session's use.
+
+        This helps to manage resources efficiently, especially in long-running
+        applications where multiple sessions may be created and closed over time.
+        """
+        self.__session.close()
 
     def delete(self, obj=None):
         """
@@ -110,7 +155,7 @@ class DBStorage():
         to create tables that correspond to the defined classes (models)
         """
         
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(self.__engine)
         """ This line creates all the tables defined in the Base """
         
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)

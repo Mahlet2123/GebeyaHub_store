@@ -4,7 +4,7 @@
 from models import storage
 from models.product import Product
 from models.category import Category
-from models.url import Url
+from models.product_image import ProductImage
 from flask import Flask, render_template, Blueprint, session
 from flask_login import (
     UserMixin,
@@ -38,7 +38,7 @@ def single_prodcuct():
 
     for product in products.values():
         if product.urls:
-            image = product.urls[0].link  # Select the first image
+            image = product.[0].link  # Select the first image
         else:
             image = None
 

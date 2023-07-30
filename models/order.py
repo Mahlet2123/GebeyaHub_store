@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """ the orders module """
-from models import BaseModel, Base
+from models.base_model import BaseModel, Base
 from sqlalchemy import String, Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
 
 class Order(BaseModel, Base):
     """ A Order class """
-    __tablename__ = orders
+    __tablename__ = 'orders'
 
     user_id = Column(
             String(60),

@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """ the review module """
-from models import BaseModel, Base
-from sqlalchemy import String, Column, ForeignKey
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, ForeignKey, Float
 
 
 class Review(BaseModel, Base):
     """ A Review class """
-    __tablename__ = review
+    __tablename__ = 'review'
 
-    rating = Column(float, nullable=False)
+    rating = Column(Float, nullable=False)
     review_text =Column(String(1024), nullable=False)
     user_id = Column(
             String(60),

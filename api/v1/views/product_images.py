@@ -6,7 +6,7 @@
 
 
 from api.v1.views import app_views
-from models.url import Url
+from models.product_image import ProductImage
 from models.product import Product
 from models import storage
 from flask import jsonify, abort, request

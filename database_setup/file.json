@@ -1,5 +1,5 @@
 {
-    "dressings": [
+    "Dressings": [
         {
             "name": "jacket",
             "gender": "male",
@@ -279,7 +279,7 @@
             ]
         }
     ],
-    "jewelry": [
+    "Jewelry": [
         {
             "name": "necklaces",
             "price": 54.55,
@@ -382,7 +382,7 @@
             ]
         }
     ],
-    "shoe": [
+    "Shoe": [
         {
             "name": "running Shoe",
             "gender": "male",
@@ -644,7 +644,7 @@
                 ]
         }
     ],
-    "tech": [
+    "Tech": [
         {
             "name": "laptop",
             "price": 1420.00,

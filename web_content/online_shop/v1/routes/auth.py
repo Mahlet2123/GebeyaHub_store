@@ -18,8 +18,8 @@ from flask_login import (
     logout_user,
     current_user,
 )
-from web_content.online_shop.v1.routes.forms import RegisterForm
-from web_content.online_shop.v1.routes.forms import LoginForm
+from web_content.online_shop.v1.forms.forms import RegisterForm
+from web_content.online_shop.v1.forms.forms import LoginForm
 from web_content.online_shop.v1.routes.store import app_store
 from models.user import User
 

@@ -6,32 +6,32 @@ import cmd
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.user_profile import UserProfile
 from models.category import Category
 from models.product import Product
+from models.product_image import ProductImage
+from models.review import Review
 from models.cart import Cart
 from models.cart_item import CartItem
 from models.order import Order
 from models.order_item import OrderItem
-from models.review import Review
-from models.url import Url
 
 
 class_names = {
-    "BaseModel": BaseModel,
-    "User": User,
-    "Category": Category,
-    "Product": Product,
-    "Review": Review,
-    "Cart": Cart,
-    "CartItem": CartItem,
-    "Order": Order,
-    "OrderItem": OrderItem,
-    "Url": Url
-}
-
+        'User': User,
+        'Category': Category,
+        'Product': Product,
+        'Review': Review,
+        'Cart': Cart,
+        'CartItem': CartItem,
+        'Order': Order,
+        'OrderItem': OrderItem,
+        'UserProfile': UserProfile,
+        'ProductImage': ProductImage
+        }
 
 class HBNBCommand(cmd.Cmd):
-    prompt = "(hbnb) "
+    prompt = "(--->) "
 
     def do_create(self, arg):
         """
@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
                 # Setting each argumets for each iteration
                 setattr(new_inst, key, val)
 
-            # Saving the new attribute into json file    
+            # Saving the new attribute into database 
             new_inst.save()
             print(new_inst.id)
         except Exception as e:

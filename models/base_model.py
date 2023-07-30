@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ The BaseModel """
+import models
 from uuid import uuid4
 from datetime import datetime
 from sqlalchemy import String, Column, DateTime
@@ -7,6 +8,10 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 Base = declarative_base()
+""" calls the declarative_base function to create the base class for
+the SQLAlchemy models.
+
+so that SQLAlchemy handles the underlying database interactions. """
 
 
 class BaseModel():
@@ -33,13 +38,13 @@ class BaseModel():
     def __str__(self):
         """ Returning the instance in user friendly way
         print: [<class name>] (<self.id>) <self.__dict__> """
+
         return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.to_dict())
 
     def __repr__(self):
         """ Returning the '__str__' result as a standard python expression """
         return self.__str__()
     
-
     def save(self):
         """ Saving to the file """
         self.created_at = datetime.now()
@@ -55,6 +60,6 @@ class BaseModel():
         dict_copy['updated_at'] = self.updated_at.isoformat()
         dict_copy.pop('_sa_instance_state', None)
         return dict_copy
-
+    
     def delete(self):
         models.storage.delete(self)

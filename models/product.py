@@ -1,16 +1,17 @@
 #!/usr/bin/python3
 """ the products module """
-from models import BaseModel, Base
-from sqlalchemy import String, Column, ForeignKey
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, ForeignKey, Float
+from sqlalchemy.orm import relationship
 
 
 class Product(BaseModel, Base):
     """ A product class """
-    __tablename__ = products
+    __tablename__ = 'products'
 
     name = Column(String(60), nullable=False)
-    price = Column(float, nullable=False)
-    discription =Column(String(1024), nullable=False)
+    price = Column(Float, nullable=False)
+    description =Column(String(1024))
     category_id = Column(
             String(60),
             ForeignKey("categories.id", ondelete="CASCADE"),
